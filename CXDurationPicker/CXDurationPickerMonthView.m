@@ -317,7 +317,10 @@
         [dayLabel setTextAlignment:NSTextAlignmentCenter];
         [dayLabel setTextColor:self.dayLabelColor];
         [dayLabel setFont:dayFont];
-        [dayLabel setText:daysOfWeek[i]];
+
+        // Find the weekday (first day of week - sunday = 1, monday = 2)
+        int weekDayOffset = (int)self.calendar.firstWeekday - 1;
+        [dayLabel setText:daysOfWeek[i + weekDayOffset]];
         
         [self addSubview:dayLabel];
     }
