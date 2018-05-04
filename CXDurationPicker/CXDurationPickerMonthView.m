@@ -141,14 +141,10 @@
     }
     
     yOffset += self.weekTitleHeight + 5;
-    
-    int colIndex = 0;
+
     int rowIndex = 0;
-    
-    for (int i = 1; i < self.components.weekday; i++) {
-        colIndex++;
-    }
-    
+    int colIndex = [self colIndexForWeekday];
+
     for (int i = 0; i < self.numDays; i++) {
         float x = colIndex * self.cellWidth;
         float y = rowIndex * self.cellHeight;
@@ -325,13 +321,6 @@
         [self addSubview:dayLabel];
     }
     
-    int colIndex = 0;
-    int rowIndex = 0;
-    
-    for (int i = 1; i < self.components.weekday; i++) {
-        colIndex++;
-    }
-    
     NSDate *today = [NSDate date];
     NSDateComponents *todayComponents = [[NSCalendar currentCalendar]
                                          components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
@@ -342,17 +331,6 @@
                                          fromDate:yesterday];
     
     for (int i = 0; i < self.numDays; i++) {
-        float xOffset = 0;
-        
-        if (colIndex != 0) {
-            xOffset = -1 * (colIndex);
-        }
-        
-        float yOffset2 = 0;
-        if (rowIndex != 0) {
-            yOffset2 = -1 * (rowIndex);
-        }
-        
         CXDurationPickerDayView *v = [[CXDurationPickerDayView alloc] init];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -385,9 +363,7 @@
             && i == todayComponents.day - 1) {
             v.isToday = YES;
         }
-        
-        colIndex++;
-        
+
         v.tag = 200 + i;
         
         NSString *day = [NSString stringWithFormat:@"%d", i + 1];
@@ -406,11 +382,6 @@
         [self.days addObject:v];
         
         [self addSubview:v];
-        
-        if (colIndex % 7 == 0) {
-            colIndex = 0;
-            rowIndex++;
-        }
     }
 }
 
@@ -477,9 +448,8 @@
     return stringFromDate;
 }
 
-- (int)numberOfWeekRowsNeeded
-{
-    int colIndex = (int)self.components.weekday - 1; // starting weekday column
+- (int)numberOfWeekRowsNeeded {
+    int colIndex = [self colIndexForWeekday];
     int rowIndex = 4; // All months have 4 weeks / 28 days
     
     for (int i = 28; i < self.numDays; i++) {
@@ -490,6 +460,22 @@
         }
     }
     return colIndex == 0 ? rowIndex : rowIndex+1;
+}
+
+- (int)colIndexForWeekday {
+    // Find the column index for the current weekday based on the first day of week in the current calendar
+    // We subtract the first day of week from the current weekday
+    // Example: current weekday is sunday (1) and first day of week is sunday (1) = the column index is 0 (1st column)
+    // Example: current weekday is monday (2) and forst day of week is monday (2) = the column index is 0 (1st column)
+    int colIndex = (int) self.components.weekday - (int) self.calendar.firstWeekday;
+
+    // If current weeday is sunday (1) and first day of week is monday (2) the column index will be -1
+    // In this case the column index should be 6 (the 7th column)
+    if (colIndex < 0) {
+        colIndex = 6;
+    }
+
+    return colIndex;
 }
 
 - (CXDurationPickerMonth)monthPickerDateFromDate:(NSDate *)date {
