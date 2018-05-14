@@ -42,8 +42,8 @@
 #pragma mark - Lifecycle
 
 - (void)baseInit {
-    self.monthTitleHeight = 16;
-    self.weekTitleHeight = 12;
+    self.monthTitleHeight = 13;
+    self.weekTitleHeight = 13;
     
     self.gridColor = [UIColor grayColor];
     
@@ -119,7 +119,7 @@
     
     self.dateLabel.frame = CGRectMake(self.monthOffset, 0,
                                       self.bounds.size.width - self.monthOffset,
-                                      self.monthTitleHeight + 4);
+                                      self.monthTitleHeight + 8);
 
     float yOffset = self.dateLabel.frame.size.height + 10;
     
@@ -270,8 +270,8 @@
 
 - (void)setupViews {
     self.dateString = [NSString stringWithFormat:@"%@", [self monthNameFromDate:self.date]];
-    
-    UIFont *dateFont = [UIFont fontWithName:@"HelveticaNeue" size:self.monthTitleHeight];
+
+    UIFont *dateFont = [UIFont boldSystemFontOfSize:self.monthTitleHeight];
     
 //    [self setIsAccessibilityElement:YES];
 //    self.accessibilityIdentifier = self.dateString;
@@ -289,13 +289,13 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSMutableArray *daysOfWeek = [[NSMutableArray alloc] init];
     for (NSString *dayOfWeek in [dateFormatter shortWeekdaySymbols]) {
-        [daysOfWeek addObject:[dayOfWeek uppercaseString]];
+        [daysOfWeek addObject:dayOfWeek];
     }
     // Add SUN to the end again - not sure why, but the hardcoded array had it there, so if it ain't broke...
     [daysOfWeek addObject:daysOfWeek[0]];
     
     UILabel *dayLabel;
-    UIFont *dayFont = [UIFont fontWithName:@"HelveticaNeue" size:self.weekTitleHeight];
+    UIFont *dayFont = [UIFont systemFontOfSize:self.weekTitleHeight];
     
     for (int i = 0; i < 7; i++) {
         float xOffset = 0;
