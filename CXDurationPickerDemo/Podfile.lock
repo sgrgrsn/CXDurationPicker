@@ -4,7 +4,13 @@ PODS:
 DEPENDENCIES:
   - CXTabView (~> 0.3.2)
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - CXTabView
+
 SPEC CHECKSUMS:
   CXTabView: 07828630f993733fb9638d2aa95e773b40ea26f4
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: cf4236e3e3428d04ef768b9da7730ebc5a1f6064
+
+COCOAPODS: 1.5.0

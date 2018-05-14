@@ -15,17 +15,12 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <CXTabView/CXTabView.h>
 
 #import "CXDurationPickerView.h"
 
-@interface ViewController : UIViewController <CXTabViewDelegate, CXDurationPickerViewDelegate>
+@interface ViewController : UIViewController <CXDurationPickerViewDelegate>
 
-@property (weak, nonatomic) IBOutlet CXTabView *tabView;
 @property (weak, nonatomic) IBOutlet CXDurationPickerView *picker;
-@property (weak, nonatomic) IBOutlet UIView *singleDateView;
-@property (weak, nonatomic) IBOutlet UILabel *singleDateViewLabel;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedModeSwitcher;
 
 @end
 

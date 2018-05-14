@@ -25,154 +25,61 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.tabView.delegate = self;
+
     self.picker.delegate = self;
-    
+
+    // Setup
+    self.picker.type = CXDurationPickerTypeDuration;
     self.picker.mode = CXDurationPickerModeStartDate;
-    
-//    CXDurationPickerDate endPickerDate;
-//    endPickerDate.day = 23;
-//    endPickerDate.month = 5;
-//    endPickerDate.year = 2015;
-//    
-//    [self.picker setStartDate:endPickerDate];
-//    
-//    self.picker.mode = CXDurationPickerModeStartDate;
-//    
-//    CXDurationPickerDate startPickerDate;
-//    startPickerDate.day = 19;
-//    startPickerDate.month = 5;
-//    startPickerDate.year = 2015;
-//    
-//    [self.picker setStartDate:startPickerDate];
-//
-//    [self.picker setStartPickerDate:d withDuration:5];
-    
-    // An example that will change the picker's background color.
-    //
-    //self.view.backgroundColor = [UIColor greenColor];
-    //self.picker.backgroundColor = [UIColor clearColor];
-    
-    self.picker.allowSelectionsInPast = YES;
-    
-    [self synchronizeComponents];
-}
+    self.picker.allowSelectionsInPast = NO;
 
-#pragma mark - CXTabViewDelegate
+    // Styles
+    UIColor *orange = [UIColor colorWithRed:0.93 green:0.44 blue:0.0 alpha:1];
+    UIColor *lightOrange = [UIColor colorWithRed:0.93 green:0.44 blue:0.0 alpha:0.5];
 
-- (void)tabView:(CXTabView *)tabView didSelectMode:(CXTabViewMode)mode {
-    switch (mode) {
-        case CXTabViewModeStart:
-            NSLog(@"Selected start mode");
-            self.picker.mode = CXDurationPickerModeStartDate;
-            break;
-        case CXTabViewModeEnd:
-            NSLog(@"Selected end mode");
-            self.picker.mode = CXDurationPickerModeEndDate;
-            break;
-    }
+    self.picker.gridColor = [UIColor clearColor];
+    self.picker.disabledDayBackgroundColor = [UIColor clearColor];
+    self.picker.disabledDayForegroundColor = [UIColor lightGrayColor];
+
+    self.picker.todayBackgroundColor = [UIColor clearColor];
+    self.picker.todayForegroundColor = orange;
+
+    self.picker.terminalBackgroundColor = orange;
+    self.picker.transitBackgroundColor = lightOrange;
+    self.picker.transitForegroundColor = [UIColor blackColor];
+    self.picker.dayForegroundColor = [UIColor blackColor];
 }
 
 #pragma mark - CXDurationPickerViewDelegate
 
-- (void)durationPicker:(CXDurationPickerView *)durationPicker
-        endDateChanged:(CXDurationPickerDate)pickerDate {
-    
-    self.tabView.durationEndString = [CXDurationPickerUtils stringFromPickerDate:pickerDate];
+- (void)durationPicker:(CXDurationPickerView *)durationPicker startDateChanged:(CXDurationPickerDate)pickerDate {
+    NSLog(@"starteDateChanged");
+    self.picker.mode = CXDurationPickerModeEndDate;
+    [self.picker setStartPickerDate:pickerDate withDuration:0];
 }
 
-- (void)durationPicker:(CXDurationPickerView *)durationPicker
-     singleDateChanged:(CXDurationPickerDate)pickerDate {
-    
-    self.singleDateViewLabel.text = [CXDurationPickerUtils stringFromPickerDate:pickerDate];
-    
-    NSLog(@"Selected single date of %@", [CXDurationPickerUtils stringFromPickerDate:pickerDate]);
-}
-
-- (void)durationPicker:(CXDurationPickerView *)durationPicker
-      startDateChanged:(CXDurationPickerDate)pickerDate {
-    
-    self.tabView.durationStartString = [CXDurationPickerUtils stringFromPickerDate:pickerDate];
+- (void)durationPicker:(CXDurationPickerView *)durationPicker endDateChanged:(CXDurationPickerDate)pickerDate {
+    NSLog(@"endDateChanged");
+    self.picker.mode = CXDurationPickerModeStartDate;
 }
 
 #pragma mark - CXDurationPickerViewDelegate Optionals
 
-- (void)durationPicker:(CXDurationPickerView *)durationPicker
-invalidEndDateSelected:(CXDurationPickerDate)date {
-    
-    NSLog(@"Invalid end date selected.");
-    
-    NSError *error;
-    
-    BOOL didShift = [self.picker shiftDurationToEndPickerDate:date error:&error];
-    
-    if (didShift) {
-        [self synchronizeComponents];
-    } else {
-        NSLog(@"Unable to shift end date: %@", error.localizedDescription);
-    }
-}
-
 - (void)durationPicker:(CXDurationPickerView *)durationPicker invalidStartDateSelected:(CXDurationPickerDate)date {
-    NSLog(@"Invalid start date selected.");
-    
-    NSError *error;
-    
-    BOOL didShift = [self.picker shiftDurationToStartPickerDate:date error:&error];
-    
-    if (didShift) {
-        [self synchronizeComponents];
-    } else {
-        NSLog(@"Unable to shift start date: %@", error.localizedDescription);
-    }
+    NSLog(@"invalidStartDateSelected");
+    self.picker.mode = CXDurationPickerModeEndDate;
+    [self.picker setStartPickerDate:date withDuration:0];
 }
 
-- (void)durationPicker:(CXDurationPickerView *)durationPicker
-   didSelectDateInPast:(CXDurationPickerDate)date
-               forMode:(CXDurationPickerMode)mode {
-    
+- (void)durationPicker:(CXDurationPickerView *)durationPicker invalidEndDateSelected:(CXDurationPickerDate)date {
+    NSLog(@"invalidEndDateSelected");
+    self.picker.mode = CXDurationPickerModeStartDate;
+    [self.picker setEndDate:self.picker.startDate];
+    [self.picker setStartDate:date];
+}
+
+- (void)durationPicker:(CXDurationPickerView *)durationPicker didSelectDateInPast:(CXDurationPickerDate)date forMode:(CXDurationPickerMode)mode {
     NSLog(@"Date was selected in the past. Ignoring.");
-}
-
-#pragma mark - Segmented Mode Switcher
-
-- (IBAction)segmentedModeSwitcherChanged {
-    if (self.segmentedModeSwitcher.selectedSegmentIndex == 0) {
-        self.tabView.alpha = 1;
-        self.singleDateView.alpha = 0;
-        self.picker.type = CXDurationPickerTypeDuration;
-        self.tabView.mode = CXTabViewModeStart;
-    } else if (self.segmentedModeSwitcher.selectedSegmentIndex == 1) {
-        self.tabView.alpha = 0;
-        self.singleDateView.alpha = 1;
-        self.picker.type = CXDurationPickerTypeSingle;
-    }
-    
-    [self synchronizeComponents];
-}
-
-#pragma mark - Utilities
-
-- (void)synchronizeComponents {
-    if (self.segmentedModeSwitcher.selectedSegmentIndex == 0) {
-        [self synchronizeRange];
-    } else if (self.segmentedModeSwitcher.selectedSegmentIndex == 1) {
-        [self synchronizeSingle];
-    }
-}
-
-- (void)synchronizeRange {
-    CXDurationPickerDate startDate = self.picker.startDate;
-    self.tabView.durationStartString = [CXDurationPickerUtils stringFromPickerDate:startDate];
-    
-    CXDurationPickerDate endDate = self.picker.endDate;
-    self.tabView.durationEndString = [CXDurationPickerUtils stringFromPickerDate:endDate];
-}
-
-- (void)synchronizeSingle {
-    CXDurationPickerDate pickerDate = self.picker.singleDate;
-    self.singleDateViewLabel.text = [CXDurationPickerUtils stringFromPickerDate:pickerDate];
 }
 
 @end
