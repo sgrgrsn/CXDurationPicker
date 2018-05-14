@@ -122,10 +122,9 @@
     [self setAccessibilityLabel:self.description];
 #endif
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CTFontRef font = CTFontCreateUIFontForLanguage(kCTFontUIFontSystem,
-                                                   self.bounds.size.height / 3, NULL);
-    
+
+    CGFloat fontSize = self.bounds.size.height / 4;
+    CTFontRef font = CTFontCreateUIFontForLanguage(kCTFontUIFontSystem, fontSize, NULL);
     CGFloat ascenderHeight = CTFontGetAscent(font);
     
     // Set foreground text color.
@@ -151,7 +150,7 @@
     }
     
     NSDictionary *attributesDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    (__bridge id)font, (id)kCTFontAttributeName,
+                                    [UIFont boldSystemFontOfSize:fontSize], NSFontAttributeName,
                                     color, (id)kCTForegroundColorAttributeName,
                                     nil];
     
@@ -185,7 +184,7 @@
         
         CGContextFillRect(context, CGRectMake(rectangleX + 0.5,
                                               rectangleY + 0.5,
-                                              rectangleWidth - 1,
+                                              rectangleWidth,
                                               rectangleHeight - 1));
         
     } else if (self.type == CXDurationPickerDayTypeEnd) {
@@ -201,7 +200,7 @@
         
         CGContextFillRect(context, CGRectMake(0.5,
                                               rectangleY + 0.5,
-                                              rectangleWidth - 1,
+                                              rectangleWidth,
                                               rectangleHeight - 1));
         
     } else if (self.type == CXDurationPickerDayTypeTransit) {
@@ -218,7 +217,7 @@
             
             CGContextFillRect(context, CGRectMake(0.5,
                                                   rectangleY + 0.5,
-                                                  self.frame.size.width - 1,
+                                                  self.frame.size.width,
                                                   rectangleHeight - 1));
         } else {
             CGContextSetFillColorWithColor(context, self.transitBackgroundColor.CGColor);
@@ -259,33 +258,7 @@
         }
 
     }
-    
-    if (self.type == CXDurationPickerDayTypeOverlap) {
-        
-        if (self.roundedTerminals) {
-            float notBiggerThan = self.bounds.size.height * 0.80;
-            float notSmallerThan = ascenderHeight + 7;
-            
-            float circleDiameter = fmaxf(notBiggerThan, notSmallerThan);
-            float circleRadius = circleDiameter / 2;
-            
-            float circleX = (self.bounds.size.width - circleDiameter) / 2 + circleRadius;
-            float circleY = (self.bounds.size.height - circleDiameter) / 2 + circleRadius;
-            
-            CGContextSetStrokeColorWithColor(context, self.terminalBackgroundColor.CGColor);
-            CGContextSetLineWidth(context, 2);
-            CGContextAddArc(context, circleX, circleY, circleRadius, 0, M_PI * 2, false);
-            CGContextStrokePath(context);
-        } else {
-            CGContextSetFillColorWithColor(context, self.terminalBackgroundColor.CGColor);
-            
-            CGContextFillRect(context, CGRectMake(0.5, 0.5,
-                                                  self.bounds.size.width - 1,
-                                                  self.bounds.size.height - 1));
-        }
 
-    }
-    
     // Draw day number.
     //
     float xOffset = (self.bounds.size.width - labelWidth) / 2;
@@ -294,7 +267,7 @@
     // I can't find the right way to vertically align the text, but adding a couple DIPs here
     // makes it look right. :/
     //
-    float yOffset = (yCenter + 3);
+    float yOffset = (yCenter + 2);
     
     CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)stringToDraw);
     CGContextSetTextPosition(context, xOffset, yOffset);
