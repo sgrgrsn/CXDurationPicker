@@ -1,9 +1,0 @@
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '7.0'
-
-target 'CXDurationPickerDemo' do
-    pod 'CXTabView', '~> 0.3.2'
-end
-
-target 'CXDurationPickerDemoTests' do
-end
