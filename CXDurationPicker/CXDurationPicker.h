@@ -19,3 +19,4 @@ FOUNDATION_EXPORT const unsigned char CXDurationPickerVersionString[];
 #import <CXDurationPicker/CXDurationPickerView.h>
 #import <CXDurationPicker/CXDurationPickerDate.h>
 #import <CXDurationPicker/CXDurationPickerMonthView.h>
+#import <CXDurationPicker/CXDurationPickerUtils.h>

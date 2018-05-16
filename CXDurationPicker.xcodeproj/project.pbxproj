@@ -16,7 +16,7 @@
 		45CB0DEE20A9C16000F82E73 /* CXDurationPickerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CB0DE320A9C16000F82E73 /* CXDurationPickerUtils.m */; };
 		45CB0DEF20A9C16000F82E73 /* UIColor+CXDurationDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CB0DE420A9C16000F82E73 /* UIColor+CXDurationDefaults.m */; };
 		45CB0DF020A9C16000F82E73 /* CXDurationPickerDayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CB0DE520A9C16000F82E73 /* CXDurationPickerDayView.m */; };
-		45CB0DF120A9C16000F82E73 /* CXDurationPickerUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 45CB0DE620A9C16000F82E73 /* CXDurationPickerUtils.h */; };
+		45CB0DF120A9C16000F82E73 /* CXDurationPickerUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 45CB0DE620A9C16000F82E73 /* CXDurationPickerUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45CB0DF220A9C16000F82E73 /* CXDurationPickerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 45CB0DE720A9C16000F82E73 /* CXDurationPickerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45CB0DF320A9C16000F82E73 /* CXDurationPickerDayView.h in Headers */ = {isa = PBXBuildFile; fileRef = 45CB0DE820A9C16000F82E73 /* CXDurationPickerDayView.h */; };
 /* End PBXBuildFile section */
