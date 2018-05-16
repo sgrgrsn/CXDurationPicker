@@ -314,7 +314,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = it.emplate.CXDurationPicker.CXDurationPicker;
+				PRODUCT_BUNDLE_IDENTIFIER = it.emplate.CXDurationPicker;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -340,7 +340,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = it.emplate.CXDurationPicker.CXDurationPicker;
+				PRODUCT_BUNDLE_IDENTIFIER = it.emplate.CXDurationPicker;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
