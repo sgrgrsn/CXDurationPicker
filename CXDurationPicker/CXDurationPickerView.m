@@ -70,6 +70,8 @@
     self.table.backgroundColor = [UIColor defaultMonthBackgroundColor];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.table.showsVerticalScrollIndicator = NO;
+
+    self.table.hidden = YES;
     
     [self addMonths];
 }
@@ -326,9 +328,7 @@
         }
         
         if (path) {
-            [self.table scrollToRowAtIndexPath:path
-                              atScrollPosition:UITableViewScrollPositionTop
-                                      animated:animated];
+            [self scrollToIndexPath:path animated:animated];
         }
     });
 }
@@ -338,11 +338,18 @@
         NSIndexPath *path = [NSIndexPath indexPathForRow:12 inSection:0];
         
         if (path) {
-            [self.table scrollToRowAtIndexPath:path
-                              atScrollPosition:UITableViewScrollPositionTop
-                                      animated:animated];
+            [self scrollToIndexPath:path animated:animated];
         }
     });
+}
+
+- (void)scrollToIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+    [self.table scrollToRowAtIndexPath:indexPath
+                      atScrollPosition:UITableViewScrollPositionTop
+                              animated:animated];
+
+    self.table.contentOffset = CGPointMake(0, self.table.contentOffset.y - 20);
+    self.table.hidden = NO;
 }
 
 - (void)setEndDate:(CXDurationPickerDate)endDate {

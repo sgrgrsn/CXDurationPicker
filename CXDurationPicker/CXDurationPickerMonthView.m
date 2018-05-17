@@ -42,8 +42,8 @@
 #pragma mark - Lifecycle
 
 - (void)baseInit {
-    self.monthTitleHeight = 13;
-    self.weekTitleHeight = 13;
+    self.monthTitleHeight = 14;
+    self.weekTitleHeight = 14;
     
     self.gridColor = [UIColor grayColor];
     
