@@ -60,6 +60,7 @@
     self.monthViews = [[NSMutableArray alloc] init];
     
     self.table = [[UITableView alloc] initWithFrame:self.bounds];
+    self.table.scrollsToTop = NO;
     
     [self addSubview:self.table];
     
